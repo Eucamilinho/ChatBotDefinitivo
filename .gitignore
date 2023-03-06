@@ -6,3 +6,4 @@ tmp/*
 index.js
 indexpru.js
 tsconfig.json
+pnpm-lock.yaml
