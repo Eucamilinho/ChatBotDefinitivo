@@ -13,3 +13,6 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(`/`, router_1.default);
 app.listen(port, () => console.log(`Ready...${port}`));
+app.get('/', function(req, res) {
+    res.send('Hola')
+})
