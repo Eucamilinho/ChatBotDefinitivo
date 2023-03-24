@@ -81,35 +81,36 @@ class WsTransporter extends whatsapp_web_js_1.Client {
       const _type = type.toLowerCase();
 
       //==================== Tecnico ====================
-      if (msg.body.includes("Atender")) {
+      if (msg.body.includes("Agendar")) {
         if (_type == "buttons_response") {
           msg.react("👍");
           var idBotton = selectedButtonId;
           this.sendMessage(
             msg.from,
-            "*Entendido 🤖🫡* \n\nSe va a reportar la novedad al cliente y se va a agendar un visita\n\nEstaremos en contacto 😁👍"
+            "*Entendido 🫡* \nSe va a reportar la novedad al cliente para agendar una visita\n\nSaludos 👍"
           );
           this.cambiarEstado(idBotton);
         }
-      } else if (msg.body.includes("Rechazar")) {
+      } else if (msg.body.includes("Cerrar")) {
         if (_type == "buttons_response") {
           msg.react("👍");
           var idBotton = selectedButtonId;
           this.sendMessage(
             msg.from,
-            "*Entendido 🤖🫡* \n\nEl registro fue rechazado \n\nGracias por su tiempo 🤖, Estaremos en contacto 😁👍"
+            "*Entendido 🫡* \nLa novedad ha sido cerrada. \n\nSaludos 👍"
           );
           this.cambiarRechazado(idBotton);
+          console.log(`ID, este es el id ${idBotton}`);
         }
 
         //==================== Comprobación del cliente ====================
-      } else if (msg.body.includes("Aprobar")) {
+      } else if (msg.body.includes("Verificar")) {
         if (_type == "buttons_response") {
           msg.react("🤖");
           var idBotton = selectedButtonId;
           this.sendMessage(
             msg.from,
-            "Listo🤖 \nSe ha confirmó el registro con éxito. \n\nEstaremos en contacto para informar las novedades de tu UPS 👍 \n\nGracias por su tiempo 🤖👋"
+            "¡Gracias!\n\n✅ Tu cuenta ha sido verificada con éxito. \n\nEstaremos en contacto para informar las novedades en los servicios. 👍 \n\nSaludos."
           );
           this.cambiarCli(idBotton);
         }
@@ -130,6 +131,7 @@ class WsTransporter extends whatsapp_web_js_1.Client {
             "Listo 🫡🤖 \nSe agendó la cita correctamente. \n\nGracias por su tiempo 🤖👋"
           );
           this.siCli(idBotton);
+          console.log('Este es mi bot');
         } else if ((msg.body = "No")) {
           if (_type == "buttons_response") {
             var idBotton = selectedButtonId;
@@ -163,11 +165,11 @@ class WsTransporter extends whatsapp_web_js_1.Client {
           let button = new Buttons(
             message,
             [
-              { id: idP, body: "Atender" },
-              { id: idA, body: "Rechazar" },
+              { id: idP, body: "Agendar" },
+              { id: idA, body: "Cerrar" },
             ],
             "Alerta 🤖",
-            "recuerda escoger solo una opción para que el proceso sea mas ágil 😉"
+            "Recuerda escoger sólo una opción para agilizar el proceso."
           );
           const response = yield this.sendMessage(`${phone}@c.us`, button);
         } else if (Tipo === "Cliente") {
@@ -176,11 +178,10 @@ class WsTransporter extends whatsapp_web_js_1.Client {
           let button = new Buttons(
             message,
             [
-              { id: idA, body: "Aprobar" },
-              { id: idP, body: "Denegar" },
+              { id: idA, body: "Verificar" },
             ],
-            "Hola soy Chat bot asistente virtual🤖",
-            "Gracias"
+            "Hola, soy el asistente virtual de TEUTRONICA 🤖",
+            null
           );
           const response = yield this.sendMessage(`${phone}@c.us`, button);
         } else if (Tipo === "horarioCli") {
